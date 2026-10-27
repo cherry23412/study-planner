@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf1ec">
+<title>Study Planner</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Neucha&family=Nunito:wght@400;700&display=swap">
+<style>
+:root{--bg:#fbf1ec;--card:#fffaf6;--ink:#4a3b3b;--mut:#8a7773;--line:#e3d0ca;--acc:#e29a9a;--on:#3b2a2c;--ff:'Neucha','Comic Sans MS',cursive;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#231e21;--card:#2e282c;--ink:#f3e8e5;--mut:#b8a8a5;--line:#463d42}}
+:root[data-theme="dark"]{--bg:#231e21;--card:#2e282c;--ink:#f3e8e5;--mut:#b8a8a5;--line:#463d42}
+:root[data-accent="lav"]{--acc:#b4a2e2}:root[data-accent="mint"]{--acc:#8ccb97}:root[data-accent="sand"]{--acc:#d2b393}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--ff);font-size:18px;line-height:1.35}
+button,input,select{font:inherit;color:inherit}button{cursor:pointer}
+h1,h2,p{margin:0;font-weight:400}h1{font-size:30px;line-height:1.15}h2{font-size:22px}
+.mut{color:var(--mut)}
+.shell{max-width:1100px;margin:0 auto}
+.side{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;gap:4px;background:var(--card);border-top:1.5px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}
+.side button{flex:1;min-height:54px;border:0;background:none;color:var(--mut);font-size:14px;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.side button i{font-style:normal;font-size:22px}
+.side button.on{color:var(--ink);background:color-mix(in srgb,var(--acc) 38%,var(--card))}
+.brand{display:none}
+.content{padding:20px 18px 120px;max-width:760px;margin:0 auto}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 14px}
+.ic{width:46px;height:46px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--card);font-size:20px}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:22px;padding:14px 16px;margin:0 0 18px}
+.quote{background:color-mix(in srgb,var(--acc) 26%,var(--card));font-size:21px;padding:18px}
+.btn{display:block;width:100%;min-height:54px;border:1.5px solid var(--ink);border-radius:20px;background:var(--acc);color:var(--on);font-size:21px;margin:0 0 12px}
+.btn.g{background:var(--card);color:var(--ink)}
+.lnk{border:0;background:none;color:var(--mut);min-height:44px;padding:0 6px}
+.in{width:100%;min-height:48px;border:1.5px solid var(--line);border-radius:14px;background:var(--card);padding:0 14px;margin:0 0 12px}
+.tk{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.tk:last-child{border-bottom:0}
+.ck{width:40px;height:40px;flex:none;border-radius:12px;border:2px solid var(--ink);background:none;font-size:20px}
+.tk.done .ck{background:var(--acc);color:var(--on)}
+.tk.done b{text-decoration:line-through;color:var(--mut)}
+.tx{flex:1;min-width:0;display:flex;flex-direction:column}.tx b{font-weight:400}.tx small{color:var(--mut);font-size:15px}
+.pr{padding:3px 12px;border-radius:14px;font-size:15px;color:var(--c);border:1.5px solid var(--c);background:color-mix(in srgb,var(--c) 16%,var(--card));white-space:nowrap}
+.h{--c:#e0707a}.m{--c:#9a84d6}.l{--c:#58a966}
+.x{width:36px;height:44px;border:0;background:none;color:var(--mut);font-size:22px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:0 0 16px;padding-bottom:4px}
+.chip{min-height:44px;padding:0 16px;border-radius:22px;border:1.5px solid var(--line);background:var(--card);white-space:nowrap}
+.chip.on{background:var(--acc);color:var(--on);border-color:var(--ink)}
+.cnt{display:inline-block;min-width:26px;text-align:center;border-radius:13px;background:color-mix(in srgb,var(--acc) 40%,var(--card));font-size:16px}
+.bar{height:14px;border-radius:7px;background:var(--line);margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--acc);border-radius:7px}
+.cat{text-align:center;font-size:44px}.cat span{display:block;font-size:20px}
+.fab{position:fixed;right:20px;bottom:calc(90px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:1.5px solid var(--ink);background:var(--acc);color:var(--on);font-size:32px;z-index:4}
+.mon{display:flex;align-items:center;gap:8px}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:0 0 16px}
+.dy{min-height:62px;border:1.5px solid transparent;border-radius:16px;background:none;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--mut)}
+.dy b{font-weight:400;font-size:20px;color:var(--ink)}
+.dy.td{border-color:var(--line)}.dy.on{background:var(--acc)}.dy.on,.dy.on b{color:var(--on)}
+.ev{display:flex;gap:12px;margin:0 0 10px;align-items:stretch}
+.ev time{width:50px;flex:none;color:var(--mut);padding-top:10px}
+.blk{--c:#e89a9a;flex:1;border-radius:16px;border-left:6px solid var(--c);background:color-mix(in srgb,var(--c) 38%,var(--card));padding:10px 14px;display:flex;align-items:center;gap:8px}
+.blk div{flex:1}.blk small{display:block;color:var(--mut);font-size:15px}
+.c0{--c:#e89a9a}.c1{--c:#7fc08a}.c2{--c:#c4a07e}.c3{--c:#a995dd}
+.sr{display:flex;align-items:center;gap:14px;width:100%;min-height:56px;border:0;border-bottom:1px dashed var(--line);background:none;text-align:left}
+.sr span:nth-child(2){flex:1}.sr:last-child{border-bottom:0}
+.tg{width:50px;height:30px;border-radius:15px;background:var(--line);position:relative;flex:none}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--card);transition:left .15s}
+.tg.on{background:var(--acc)}.tg.on::after{left:23px}
+.opts{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.sw{width:64px;height:64px;border-radius:18px;border:3px solid transparent}.sw.on{border-color:var(--ink)}
+.fo{min-width:80px;min-height:56px;border-radius:16px;border:1.5px solid var(--line);background:var(--card);font-size:24px}.fo.on{border-color:var(--ink);background:color-mix(in srgb,var(--acc) 30%,var(--card))}
+.ov{position:fixed;inset:0;z-index:9;background:rgba(40,25,25,.45);display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;max-height:94%;overflow:auto;background:var(--card);border-radius:26px 26px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px))}
+.sheet label{display:block;color:var(--mut);font-size:16px;margin:0 0 4px}
+.row2{display:flex;gap:10px}.row2>div{flex:1}
+.err{color:#e0707a;margin:0 0 8px}
+.sp{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;gap:14px;max-width:420px;margin:0 auto}
+.sp h1{font-size:46px}.art{font-size:84px;letter-spacing:6px}
+@media(min-width:900px){
+.shell{display:grid;grid-template-columns:240px 1fr}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;flex-direction:column;justify-content:flex-start;gap:8px;padding:28px 14px;border-top:0;border-right:1.5px solid var(--line)}
+.side button{flex:none;flex-direction:row;justify-content:flex-start;gap:12px;padding:0 16px;font-size:19px;min-height:52px}
+.brand{display:block;font-size:26px;margin:0 0 16px 8px}
+.content{max-width:880px;padding:36px 40px;margin:0}
+.cols{display:grid;grid-template-columns:1.5fr 1fr;gap:28px}
+.fab{bottom:36px}.ov{align-items:center}.sheet{border-radius:26px}}
+</style></head><body>
+<div id="app"></div><div id="modal"></div>
+<script>
+const $=s=>document.querySelector(s);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const addDays=n=>{const d=new Date();d.setDate(d.getDate()+n);return iso(d)};
+const pd=s=>{const[a,b,c]=s.split('-');return new Date(+a,+b-1,+c)};
+const today=iso(new Date());
+const uid=()=>Math.random().toString(36).slice(2,10);
+const PL={h:'Высокий',m:'Средний',l:'Низкий'};
+const FONTS={hand:"'Neucha','Comic Sans MS',cursive",round:"'Nunito',system-ui,sans-serif",serif:"Georgia,'Times New Roman',serif"};
+const ACC={rose:'#e29a9a',lav:'#b4a2e2',mint:'#8ccb97',sand:'#d2b393'};
+const QUOTES=['Маленькие шаги каждый день ведут к большим результатам.','Начни с малого: первые десять минут самые трудные.','Не нужно быть идеальным, нужно быть последовательным.','Сегодняшний труд — это завтрашняя лёгкость.','Один сделанный пункт лучше десяти запланированных.'];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const srt=(a,b)=>(a.date+(a.time||'')).localeCompare(b.date+(b.time||''));
+const fmt=t=>(t.date===today?'Сегодня':t.date===addDays(1)?'Завтра':pd(t.date).toLocaleDateString('ru',{day:'numeric',month:'short'}))+(t.time?', '+t.time:'');
+const T=(title,date,time,pr,cat,done)=>({id:uid(),title,date,time,pr,cat,done:!!done});
+const E=(title,s,e,c)=>({id:uid(),title,date:today,s,e,c});
+function load(){const d={started:false,name:'',accent:'rose',mode:'auto',font:'hand',notif:true,cats:['Задания','Личное','Другое'],
+tasks:[T('Английское эссе',today,'12:00','h','Задания'),T('Практика по математике',today,'15:00','m','Задания',1),T('Прочитать главу 4',today,'18:00','l','Личное'),T('Проект по дизайну',addDays(1),'14:00','h','Задания'),T('Прочитать статью',addDays(2),'','m','Личное'),T('Домашка по математике',addDays(4),'','l','Задания'),T('Конспект лекции',addDays(-2),'','m','Задания',1),T('Тема для исследования',addDays(-1),'','l','Другое',1)],
+events:[E('Лекция по дизайну','08:00','09:30',0),E('Английский','10:00','11:30',1),E('Обед','12:00','13:00',2),E('Работа над эссе','13:00','15:00',3),E('Спортзал','16:00','17:00',0),E('Чтение книги','19:00','20:00',1)],
+tab:'home',sel:today,filter:'all',q:'',qs:false,sub:null,m:null};
+try{const r=JSON.parse(localStorage.getItem('sp2')||'null');if(r)return{...d,...r,tab:'home',sub:null,qs:false,q:'',m:null}}catch(e){}return d}
+let S=load();
+function save(){try{localStorage.setItem('sp2',JSON.stringify(S))}catch(e){}push()}
+function theme(){const r=document.documentElement;r.dataset.accent=S.accent;if(S.mode==='auto')r.removeAttribute('data-theme');else r.dataset.theme=S.mode;r.style.setProperty('--ff',FONTS[S.font])}
+function monday(ds){const d=pd(ds);d.setDate(d.getDate()-(d.getDay()+6)%7);return d}
+const row=t=>`<div class="tk ${t.done?'done':''}"><button class="ck" data-a="tog" data-id="${t.id}" aria-label="Отметить выполненной">${t.done?'✓':''}</button><div class="tx"><b>${esc(t.title)}</b><small>${fmt(t)}${t.cat?' · '+esc(t.cat):''}</small></div><span class="pr ${t.pr}">${PL[t.pr]}</span><button class="x" data-a="del" data-id="${t.id}" aria-label="Удалить">×</button></div>`;
+
+function vHome(){const td=S.tasks.filter(t=>t.date===today).sort(srt),h=new Date().getHours();
+const g=h<5?'Доброй ночи':h<12?'Доброе утро':h<18?'Добрый день':'Добрый вечер';
+const m=monday(today),e=new Date(m);e.setDate(m.getDate()+6);const wt=S.tasks.filter(t=>t.date>=iso(m)&&t.date<=iso(e)),wd=wt.filter(t=>t.done).length;
+const nx=S.tasks.filter(t=>!t.done&&t.date>=today).sort(srt)[0],left=nx?Math.round((pd(nx.date)-pd(today))/864e5):0;
+return `<div class="hd"><h1>${g}, ${esc(S.name||'студент')}! ☀️</h1><button class="ic" data-a="srch" aria-label="Поиск">🔍</button></div>
+<div class="cols"><div><div class="card quote">«${QUOTES[new Date().getDate()%QUOTES.length]}» 🌿</div>
+<div class="hd"><h2>Сегодня</h2><button class="lnk" data-a="tab" data-v="tasks">Все ›</button></div>
+<div class="card">${td.map(row).join('')||'<p class="mut">На сегодня задач нет. Добавь новую или отдохни.</p>'}</div>
+<button class="btn" data-a="add">+ Добавить задачу</button></div>
+<div><div class="card"><h2>Прогресс недели</h2><p>${wd} из ${wt.length} задач выполнено</p><div class="bar"><i style="width:${wt.length?wd/wt.length*100:0}%"></i></div></div>
+${nx?`<div class="card"><h2>${left===0?'Дедлайн сегодня':'Дней до дедлайна: '+left}</h2><p class="mut">${esc(nx.title)}</p></div>`:''}
+<div class="card cat">🐱<span>Ты справишься!</span></div></div></div>`}
+
+function vCal(){const sd=pd(S.sel),m=monday(S.sel);
+const days=[...Array(7)].map((_,i)=>{const d=new Date(m);d.setDate(m.getDate()+i);return d});
+const ev=S.events.filter(e=>e.date===S.sel).map(e=>({s:e.s,e:e.e,t:e.title,c:e.c,id:e.id,k:'e'}));
+const tk=S.tasks.filter(t=>t.date===S.sel&&t.time).map(t=>({s:t.time,t:t.title,c:{h:0,m:3,l:1}[t.pr],id:t.id,k:'t',done:t.done}));
+const all=[...ev,...tk].sort((a,b)=>a.s.localeCompare(b.s)),nt=S.tasks.filter(t=>t.date===S.sel&&!t.time);
+const mn=sd.toLocaleDateString('ru',{month:'long'});
+return `<div class="hd"><div class="mon"><button class="ic" data-a="mon" data-v="-1" aria-label="Предыдущий месяц">‹</button><h1>${mn[0].toUpperCase()+mn.slice(1)} ${sd.getFullYear()}</h1><button class="ic" data-a="mon" data-v="1" aria-label="Следующий месяц">›</button></div><button class="ic" style="background:var(--acc);color:var(--on)" data-a="add" aria-label="Добавить">+</button></div>
+<div class="wk">${days.map(d=>{const k=iso(d);return `<button class="dy ${k===S.sel?'on':''} ${k===today?'td':''}" data-a="sel" data-v="${k}"><span>${d.toLocaleDateString('ru',{weekday:'short'})}</span><b>${d.getDate()}</b></button>`}).join('')}</div>
+${all.map(x=>`<div class="ev"><time>${x.s}</time><div class="blk c${x.c}"><div>${x.done?'✓ ':''}${esc(x.t)}<small>${x.k==='e'?x.s+' – '+x.e:'Задача'}</small></div>${x.k==='e'?`<button class="x" data-a="dele" data-id="${x.id}" aria-label="Удалить">×</button>`:''}</div></div>`).join('')||'<p class="mut">На этот день ничего не запланировано. Нажми +, чтобы добавить.</p>'}
+${nt.length?`<h2 style="margin:16px 0 8px">Без времени</h2><div class="card">${nt.map(row).join('')}</div>`:''}`}
+
+function vTasks(){const f=S.filter,q=S.q.toLowerCase();const l=S.tasks.filter(t=>(f==='all'||t.cat===f)&&t.title.toLowerCase().includes(q));
+const up=l.filter(t=>!t.done).sort(srt),dn=l.filter(t=>t.done).sort(srt).reverse();
+return `<div class="hd"><h1>Задачи</h1><button class="ic" data-a="srch" aria-label="Поиск">🔍</button></div>
+${S.qs?`<input id="q" class="in" placeholder="Найти задачу" value="${esc(S.q)}">`:''}
+<div class="chips">${['all',...S.cats].map(c=>`<button class="chip ${f===c?'on':''}" data-a="flt" data-v="${esc(c)}">${c==='all'?'Все':esc(c)}</button>`).join('')}</div>
+<div class="hd"><h2>Предстоящие <span class="cnt">${up.length}</span></h2></div><div class="card">${up.map(row).join('')||'<p class="mut">Всё сделано. Можно отдыхать 🎉</p>'}</div>
+<div class="hd"><h2>Выполненные</h2></div><div class="card">${dn.map(row).join('')||'<p class="mut">Пока ничего не выполнено.</p>'}</div>
+<button class="fab" data-a="add" aria-label="Добавить задачу">+</button>`}
+
+const back=t=>`<div class="hd"><button class="ic" data-a="sub" data-v="" aria-label="Назад">‹</button><h1 style="flex:1">${t}</h1></div>`;
+function vSet(){
+if(S.sub==='look')return back('Внешний вид')+`<h2>Тема</h2><div class="opts">${Object.entries(ACC).map(([k,c])=>`<button class="sw ${S.accent===k?'on':''}" style="background:${c}" data-a="acc" data-v="${k}" aria-label="Цвет ${k}"></button>`).join('')}</div>
+<h2>Стиль</h2><div class="opts">${[['light','Светлый'],['dark','Тёмный'],['auto','Авто']].map(([k,n])=>`<button class="chip ${S.mode===k?'on':''}" data-a="mode" data-v="${k}">${n}</button>`).join('')}</div>
+<h2>Шрифт</h2><div class="opts">${Object.keys(FONTS).map(k=>`<button class="fo ${S.font===k?'on':''}" style="font-family:${FONTS[k]}" data-a="font" data-v="${k}">Аа</button>`).join('')}</div>`;
+if(S.sub==='cats')return back('Категории')+`<div class="card">${S.cats.map(c=>`<div class="tk"><div class="tx"><b>${esc(c)}</b></div><button class="x" data-a="delcat" data-v="${esc(c)}" aria-label="Удалить категорию">×</button></div>`).join('')}</div><input id="nc" class="in" placeholder="Новая категория"><button class="btn" data-a="addcat">Добавить категорию</button>`;
+if(S.sub==='help')return back('Помощь')+`<div class="card"><p>Нажми «+», чтобы добавить задачу или событие. Отмечай выполненное галочкой, а в календаре смотри план на день.</p><br><p>Данные хранятся только на этом устройстве.</p><br><p>Чтобы открывать планировщик как приложение, выбери в меню браузера «Добавить на главный экран».</p></div>`;
+return `<div class="hd"><h1>Настройки</h1></div><label class="mut" for="nm">Твоё имя</label><input id="nm" class="in" value="${esc(S.name)}" placeholder="Студент">
+<div class="card"><button class="sr" data-a="sub" data-v="look"><span>🎨</span><span>Внешний вид</span><span>›</span></button>
+<button class="sr" data-a="notif" role="switch" aria-checked="${S.notif}"><span>🔔</span><span>Уведомления</span><span class="tg ${S.notif?'on':''}"></span></button>
+<button class="sr" data-a="sub" data-v="cats"><span>🗂️</span><span>Категории</span><span>›</span></button>
+<button class="sr" data-a="sub" data-v="help"><span>❓</span><span>Помощь</span><span>›</span></button></div><p class="mut">${DB?'☁️ Прогресс сохраняется в твоём аккаунте и доступен на всех устройствах.':'💾 Прогресс сохраняется на этом устройстве.'}</p>`}
+
+function vSplash(){return `<div class="sp"><h1>Study Planner</h1><p class="mut">Планируй · Фокусируйся · Достигай</p><div class="art">🌿🐱📚</div><p>Спокойный планировщик для учёбы</p>
+<input id="nm0" class="in" placeholder="Как тебя зовут?" style="text-align:center"><button class="btn" data-a="start">Начать</button><button class="btn g" data-a="start">Войти</button></div>`}
+
+function vModal(){const m=S.m,ev=m.kind==='e';
+return `<div class="ov" data-a="close"><div class="sheet"><div class="hd"><h1>${ev?'Новое событие':'Новая задача'}</h1><button class="ic" data-a="close" aria-label="Закрыть">×</button></div>
+<div class="opts"><button class="chip ${!ev?'on':''}" data-a="kind" data-v="t">Задача</button><button class="chip ${ev?'on':''}" data-a="kind" data-v="e">Событие</button></div>
+<label for="mt">Название</label><input id="mt" class="in" placeholder="например, английское эссе" value="${esc(m.title)}">
+${m.err?'<p class="err">Введи название.</p>':''}
+<div class="row2"><div><label for="md">Дата</label><input id="md" class="in" type="date" value="${m.date}"></div><div><label for="mtm">${ev?'Начало':'Время'}</label><input id="mtm" class="in" type="time" value="${m.time}"></div>${ev?`<div><label for="mte">Конец</label><input id="mte" class="in" type="time" value="${m.end}"></div>`:''}</div>
+${ev?'':`<label>Приоритет</label><div class="opts">${['l','m','h'].map(p=>`<button class="chip ${m.pr===p?'on':''}" data-a="pri" data-v="${p}">${PL[p]}</button>`).join('')}</div>
+<label for="mc">Категория</label><select id="mc" class="in">${S.cats.map(c=>`<option ${c===m.cat?'selected':''}>${esc(c)}</option>`).join('')}</select>`}
+<button class="btn" data-a="save">Сохранить</button></div></div>`}
+
+function R(){theme();const a=$('#app');
+if(!S.started)a.innerHTML=vSplash();
+else{const V={home:vHome,cal:vCal,tasks:vTasks,set:vSet}[S.tab]();
+a.innerHTML=`<div class="shell"><nav class="side"><div class="brand">📓 Study Planner</div>${[['home','🏠','Главная'],['cal','📅','Календарь'],['tasks','✅','Задачи'],['set','⚙️','Настройки']].map(([k,i,n])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}"><i>${i}</i>${n}</button>`).join('')}</nav><main class="content">${V}</main></div>`}
+$('#modal').innerHTML=S.m?vModal():'';
+if(S.qs&&S.tab==='tasks'){const q=$('#q');if(q){q.focus();q.setSelectionRange(q.value.length,q.value.length)}}
+save()}
+function capM(){const g=i=>($(i)||{}).value;Object.assign(S.m,{title:g('#mt')??S.m.title,date:g('#md')||S.m.date,time:g('#mtm')??S.m.time,end:g('#mte')||S.m.end,cat:g('#mc')||S.m.cat})}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v,id=b.dataset.id;
+switch(a){
+case'start':S.name=($('#nm0').value||'').trim();S.started=true;break;
+case'tab':S.tab=v;S.sub=null;S.qs=false;S.q='';break;
+case'srch':S.tab='tasks';S.qs=!S.qs;if(!S.qs)S.q='';break;
+case'tog':{const t=S.tasks.find(x=>x.id===id);t.done=!t.done;break}
+case'del':S.tasks=S.tasks.filter(x=>x.id!==id);break;
+case'dele':S.events=S.events.filter(x=>x.id!==id);break;
+case'flt':S.filter=v;break;
+case'sel':S.sel=v;break;
+case'mon':{const d=pd(S.sel),day=d.getDate();d.setDate(1);d.setMonth(d.getMonth()+ +v);d.setDate(Math.min(day,new Date(d.getFullYear(),d.getMonth()+1,0).getDate()));S.sel=iso(d);break}
+case'add':S.m={kind:'t',title:'',date:S.tab==='cal'?S.sel:today,time:'12:00',end:'13:00',pr:'m',cat:S.cats[0]||''};break;
+case'close':if(e.target!==b&&!b.classList.contains('ic'))return;S.m=null;break;
+case'kind':capM();S.m.kind=v;break;
+case'pri':capM();S.m.pr=v;break;
+case'save':{capM();const m=S.m;if(!m.title.trim()){m.err=true;break}
+if(m.kind==='e')S.events.push({id:uid(),title:m.title.trim(),date:m.date,s:m.time||'09:00',e:m.end,c:S.events.length%4});
+else S.tasks.push(T(m.title.trim(),m.date,m.time,m.pr,m.cat));
+S.m=null;if(m.date)S.sel=m.date;break}
+case'acc':S.accent=v;break;case'mode':S.mode=v;break;case'font':S.font=v;break;
+case'sub':S.sub=v||null;break;
+case'notif':S.notif=!S.notif;break;
+case'addcat':{const c=$('#nc').value.trim();if(c&&!S.cats.includes(c))S.cats.push(c);break}
+case'delcat':S.cats=S.cats.filter(c=>c!==v);if(S.filter===v)S.filter='all';break;
+default:return}
+S.at=Date.now();R()});
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;R()}});
+document.addEventListener('change',e=>{if(e.target.id==='nm'){S.name=e.target.value.trim();S.at=Date.now();save()}});
+let DB=null,pt=null,last='';
+const pack=()=>JSON.stringify(['started','name','accent','mode','font','notif','cats','tasks','events'].reduce((o,k)=>(o[k]=S[k],o),{}));
+function push(){if(!DB||!S.at)return;clearTimeout(pt);pt=setTimeout(()=>{const j=pack();if(j===last)return;last=j;DB.set({json:j,at:S.at}).catch(()=>{last=''})},700)}
+R();
+(async()=>{try{if(!window.claude)return;const[db,user]=await Promise.all([claude.use('db'),claude.use('user')]);if(!db||!user)return;const id=await user.id();if(!id)return;DB=db.doc('data/users/'+id+'/planner');const s=await DB.get();const d=s.exists?s.data():null;
+if(d&&d.json&&d.at>(S.at||0)){Object.assign(S,JSON.parse(d.json),{at:d.at});last=d.json}
+R()}catch(e){}})();
+</script></body></html>
